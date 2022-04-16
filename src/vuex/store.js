@@ -86,9 +86,15 @@ const state = {
                 "newMsgCount": 1,
                 "quiet": true,
                 "msg": [{
-                    "text": '冒个泡',
+                    "text": '冒个泡2，牛X',
                     "date": 1488117964495,
                     "name": "诸葛亮",
+                    "headerUrl": "@/assets/images/header/header03.jpeg"
+                },
+                {
+                    "text": '冒个泡2，牛X6',
+                    "date": 1488117964495,
+                    "name": "关羽",
                     "headerUrl": "https://sinacloud.net/vue-wechat/images/headers/zhugeliang.jpg"
                 }],
                 "user": [contact.getUserInfo('wxid_zhenji'), contact.getUserInfo('wxid_zhugeliang'), contact.getUserInfo('wxid_zhaohd')]
