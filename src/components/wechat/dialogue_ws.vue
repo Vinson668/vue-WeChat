@@ -1,24 +1,14 @@
 <template>
     <div class="dialogue">
         <header id="wx-header">
-            <div class="other">
-                <router-link :to="{path:'/wechat/dialogue/dialogue-info',query: { msgInfo: msgInfo}}" tag="span"
-                    class="iconfont icon-chat-group" v-show="$route.query.group_num&&$route.query.group_num!=1">
-                </router-link>
-                <router-link :to="{path:'/wechat/dialogue/dialogue-detail',query: { msgInfo: msgInfo}}" tag="span"
-                    class="iconfont icon-chat-friends" v-show="$route.query.group_num==1"></router-link>
-            </div>
             <div class="center">
-                <router-link to="/" tag="div" class="iconfont icon-return-arrow">
-                    <span>微信</span>
-                </router-link>
-                <span>{{pageName}}</span>
+                <span>群聊{{pageName}}</span>
                 <span class="parentheses"
                     v-show='$route.query.group_num&&$route.query.group_num!=1'>{{$route.query.group_num}}</span>
             </div>
         </header>
         <section class="dialogue-section clearfix" v-on:click="MenuOutsideClick">
-            <div class="row clearfix" v-for="(item,index) in msgInfo.msg" :key="index">
+            <div class="row clearfix" v-for="(item,index) in msgList" :key="index">
                 <!--<img :src="'static/header03.jpeg'" class="header">-->
                 <img src="@/assets/images/header/header03.jpeg" class="header">
                 <p v-more>{{item.name}}</p>
@@ -83,7 +73,26 @@
             return {
                 pageName: this.$route.query.name,
                 currentChatWay: true, // true为键盘打字 false为语音输入
-                timer: null
+                timer: null,
+                authToken: this.$route.query.token,
+                msgList: [{
+                    text: "长按消息，唤醒消息操作菜单",
+                    date: 1488117964495,
+                    name: "夜华",
+                    headerUrl: "https://sinacloud.net/vue-wechat/images/headers/yehua.jpg"
+                }, {
+                    text: '点击空白处，操作菜单消失',
+                    date: 1488117964495,
+                    name: "阿荡",
+                    headerUrl: "https://sinacloud.net/vue-wechat/images/headers/header01.png"
+                },
+                {
+                    text: '我试一试',
+                    date: 1488117964495,
+                    name: "夜华",
+                    headerUrl: "https://sinacloud.net/vue-wechat/images/headers/yehua.jpg"
+                }
+                ]
                 // sayActive: false // false 键盘打字 true 语音输入
             }
         },
@@ -205,10 +214,30 @@
                     container.forEach(item => item.style.backgroundColor = '#fff')
                 }
             },
-            //切换消息未读/已读状态
+            //发送消息
             sendText() {
                 var chatTxt = this.$refs.chatTxt.value;
-                console.info(chatTxt)
+                console.info("chatText:" + chatTxt)
+
+                var authToken = this.$route.query.token;
+                console.info("authToken:" + authToken)
+
+                console.info(this.msgList)
+                var date = new Date();
+                var time = date.getTime();
+                //var milliseconds = date.getMilliseconds();
+                this.msgList.push({
+                    text: "自定义消息" + time,
+                    date: 1488117964495,
+                    name: "夜华222",
+                    headerUrl: "https://sinacloud.net/vue-wechat/images/headers/yehua.jpg"
+                })
+
+                console.info(this.msgList)
+                // 超过10条消息，将前面的消息清理掉
+                if (this.msgList.length >= 10) {
+                    this.msgList.shift();
+                }
             }
         }
     }
